@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class LinkedList<T>{
     private Node head;
     private Node tail;
@@ -29,16 +27,22 @@ public class LinkedList<T>{
     }
 
    // removes the node at head and returns true, return false if list is empty
-    public boolean remove(){
+    public T remove(){
         // empty list
         if (head == null){
-            return false;
+            return null;
+        }
+
+        T value = head.data;
+        // last item
+        if (head == tail) {
+            head = tail = null;
         }
         // other scenarios
-        else{
+        else {
             head = head.next;
-            return true;
         }
+        return value;
     }
 
    // prints linked list to console
@@ -55,5 +59,9 @@ public class LinkedList<T>{
         }
         queue.append(curr.data);
         return queue.toString();
+    }
+
+    public boolean isEmpty(){
+        return head == null;
     }
 }
