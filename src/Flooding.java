@@ -37,12 +37,14 @@ public class Flooding {
                 return;
             }
 
+            // recursively checks neighbouring cells for flooding
             flooded[g.row][g.col] = true;
             markFloodedR(new GridLocation(g.row + 1, g.col));
             markFloodedR(new GridLocation(g.row - 1, g.col));
             markFloodedR(new GridLocation(g.row, g.col + 1));
             markFloodedR(new GridLocation(g.row, g.col - 1));
 
+        // safety net for large maps
         } catch (StackOverflowError e) {
             System.err.println("Stack Overflow");
             System.exit(0);
@@ -56,6 +58,7 @@ public class Flooding {
         for (int i = 0; i < rows; i++)
             Arrays.fill(flooded[i], false);
 
+        // creates a new queue and then adds the first item to the queue if appropriate
         LinkedList<GridLocation> queue = new LinkedList<>();
         for (GridLocation g: sources){
             if (terrain[g.row][g.col] <= height){
@@ -64,15 +67,19 @@ public class Flooding {
             }
         }
 
+
         while (!queue.isEmpty()){
+            // dequeues item for processing
             GridLocation g = queue.remove();
 
+            // creates an array of neighbouring cells
             GridLocation[] neighbours = new GridLocation[4];
             neighbours[0]= new GridLocation(g.row + 1, g.col);
             neighbours[1]= new GridLocation(g.row - 1, g.col);
             neighbours[2]= new GridLocation(g.row, g.col + 1);
             neighbours[3]= new GridLocation(g.row, g.col - 1);
 
+            // adds neighbours to queue and marks them as flooded if appropriate
             for (GridLocation n : neighbours){
                 if(validNeighbor(n)) {
                     if (terrain[n.row][n.col] <= height && !flooded[n.row][n.col]) {
@@ -91,6 +98,5 @@ public class Flooding {
         int col = g.col;
         return (row >= 0 && col >= 0 && row < rows && col < cols);
     }
-
 
 }
